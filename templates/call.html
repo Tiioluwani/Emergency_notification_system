@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emergency Notification System</title>
+    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 50%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        button[type="submit"] {
+            padding: 5px 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        #response {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Emergency Notification System</h1>
+    <form hx-post="/send_notification" hx-target="this">
+        <label for="message">Emergency Message:</label>
+        <input type="text" id="message" name="message" required> <!-- Ensure name is 'message' -->
+        <button type="submit">Send Notification</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        document.body.addEventListener('htmx:after-request', function(event) {
+            const response = event.detail.response;
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = response.Message;  // Corrected to access the 'Message' field
+        });
+    </script>
+</body>
+</html>
